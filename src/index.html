@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Codex Usage Monitor</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main>
+    <header><div><h1>Codex Usage</h1><p id="status">Đang khởi động…</p></div><span class="pulse"></span></header>
+    <section id="limits"></section>
+    <p id="updated"></p>
+    <div class="actions">
+      <button id="refresh">Làm mới</button>
+      <button id="login" class="secondary">Kết nối tài khoản</button>
+    </div>
+    <small>Dashboard chạy ở khay hệ thống • tự kiểm tra mỗi 5 phút • cảnh báo tại 20%, 10% và 5%</small>
+  </main>
+  <script src="renderer.js"></script>
+</body>
+</html>

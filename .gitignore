@@ -1,0 +1,8 @@
+node_modules/
+dist/
+*.log
+.appdata/
+electron.zip
+release*/
+.icon-ico/
+*.blockmap
