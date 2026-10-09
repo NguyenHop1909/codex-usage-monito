@@ -1,8 +1,11 @@
 {
   "name": "codex-usage-tray",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Windows tray monitor for ChatGPT/Codex usage limits",
-  "repository": { "type": "git", "url": "https://github.com/NguyenHop1909/codex-usage-monito.git" },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NguyenHop1909/codex-usage-monito.git"
+  },
   "main": "src/main-v2.js",
   "scripts": {
     "start": "electron .",
@@ -15,7 +18,13 @@
   "build": {
     "appId": "local.codex.usage.tray",
     "productName": "Codex Usage Monitor",
-    "publish": [{ "provider": "github", "owner": "NguyenHop1909", "repo": "codex-usage-monito" }],
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "NguyenHop1909",
+        "repo": "codex-usage-monito"
+      }
+    ],
     "files": [
       "src/**/*",
       "assets/**/*",
