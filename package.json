@@ -1,6 +1,6 @@
 {
   "name": "codex-usage-tray",
-  "version": "1.1.10",
+  "version": "1.2.0",
   "description": "Windows tray monitor for ChatGPT/Codex usage limits",
   "repository": {
     "type": "git",
@@ -9,6 +9,7 @@
   "main": "src/main-v2.js",
   "scripts": {
     "start": "electron .",
+    "test:ui": "electron scripts/ui-smoke.js",
     "dist": "electron-builder --win portable nsis"
   },
   "devDependencies": {
