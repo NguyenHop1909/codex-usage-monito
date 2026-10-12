@@ -4,10 +4,12 @@
 <header><div><h1>Codex Usage</h1><p id="status">Đang khởi động…</p></div><span id="dot" class="loading"></span></header>
 <div class="syncbar"><span id="updated">Chưa có dữ liệu</span><span id="next-check"></span></div>
 <section id="limits"></section>
+<section class="panel health-panel"><div class="health-head"><b>Tình trạng hệ thống</b><button id="check-health" class="ghost small">Kiểm tra ngay</button></div><div id="health" class="health-grid"></div><p id="health-detail"></p></section>
 <details class="panel compact-panel"><summary><b>Xu hướng 7 ngày</b><span id="forecast">Đang thu thập dữ liệu</span></summary><canvas id="chart" width="440" height="100"></canvas></details>
 <details class="panel compact-panel"><summary><b>Cài đặt & cảnh báo</b></summary>
 <label>Kiểm tra mỗi <select id="poll"><option value="1">1 phút</option><option value="5">5 phút</option><option value="10">10 phút</option><option value="15">15 phút</option></select></label>
 <label><input id="auto" type="checkbox"> Chạy cùng Windows</label><label><input id="sound" type="checkbox"> Âm thanh cảnh báo</label>
+<label><input id="widget" type="checkbox"> Widget mini luôn nổi</label>
 <div class="thresholds">Cảnh báo khi còn <label><input class="threshold" type="checkbox" value="20">20%</label><label><input class="threshold" type="checkbox" value="10">10%</label><label><input class="threshold" type="checkbox" value="5">5%</label></div>
 <div class="quiet">Không làm phiền <input id="qs" type="number" min="0" max="23">h–<input id="qe" type="number" min="0" max="23">h</div>
 <div class="inline-actions"><button id="test-notification" class="ghost">Thử thông báo</button><button id="copy-diagnostics" class="ghost">Sao chép chẩn đoán</button></div><p id="copy-status"></p>
