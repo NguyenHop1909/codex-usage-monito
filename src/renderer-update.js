@@ -11,7 +11,8 @@ function renderUpdate(x={}){$('#version').textContent=`v${x.version||'?'}`;$('#u
 setInterval(()=>{$$('.countdown').forEach(e=>{if(+e.dataset.at)e.textContent=resetLabel(+e.dataset.at)});let e=$('#next-check');if(+e.dataset.at)updateNext(+e.dataset.at)},1000);
 async function save(){await window.usageApi.saveSettings({pollMinutes:+$('#poll').value,autoStart:$('#auto').checked,sound:$('#sound').checked,widget:$('#widget').checked,activeTracking:$('#active-tracking').checked,quietStart:+$('#qs').value,quietEnd:+$('#qe').value,thresholds:$$('.threshold:checked').map(x=>+x.value)})}
 ['poll','auto','sound','widget','active-tracking','qs','qe'].forEach(id=>$('#'+id).onchange=save);$$('.threshold').forEach(x=>x.onchange=save);
+$('#compact-widget').onchange=()=>window.usageApi.saveSettings({autoCompactWidget:$('#compact-widget').checked});
 $('#refresh').onclick=()=>window.usageApi.refresh();$('#login').onclick=()=>window.usageApi.login();$('#hide').onclick=()=>window.usageApi.hide();$('#check-update').onclick=()=>window.usageApi.checkUpdate();$('#install-update').onclick=()=>window.usageApi.installUpdate();
 $('#test-notification').onclick=()=>window.usageApi.testNotification();$('#copy-diagnostics').onclick=async()=>{await window.usageApi.copyDiagnostics();$('#copy-status').textContent='Đã sao chép thông tin chẩn đoán an toàn.';setTimeout(()=>$('#copy-status').textContent='',2500)};
 $('#check-health').onclick=()=>window.usageApi.checkHealth();
-window.usageApi.onUpdate(render);window.usageApi.onUpdateStatus(renderUpdate);window.usageApi.get().then(d=>{render(d);renderUpdate(d.updateInfo)});
+window.usageApi.onUpdate(render);window.usageApi.onUpdateStatus(renderUpdate);window.usageApi.get().then(d=>{render(d);$('#compact-widget').checked=d.settings?.autoCompactWidget!==false;renderUpdate(d.updateInfo)});
