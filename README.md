@@ -13,6 +13,8 @@ npm start
 
 Lần đầu, bấm **Kết nối lại tài khoản** và đăng nhập ChatGPT trong cửa sổ mở ra. Ngay khi đọc được hạn mức, trang web tự ẩn; các lần sau ứng dụng chỉ hiện bảng theo dõi và chạy dưới system tray. Session được Electron lưu cục bộ trong profile ứng dụng; chương trình không ghi mật khẩu, cookie hay token vào log.
 
+Ứng dụng dùng chế độ theo dõi hybrid để giảm tài nguyên. Bình thường Chrome monitor chỉ được mở theo chu kỳ đã chọn, đọc hạn mức rồi đóng. Khi bật **Đang dùng Codex**, Chrome monitor được giữ chạy ẩn và dữ liệu được cập nhật mỗi 30 giây; tắt tùy chọn này để quay lại chế độ tiết kiệm.
+
 ## Đóng gói file Windows
 
 ```powershell
