@@ -22,9 +22,12 @@ class TaskbarController {
     if (['x', 'y', 'width', 'height'].some(key => current[key] !== bounds[key])) this.win.setBounds(bounds);
   }
   ensureVisible() {
-    // Changing bounds or z-order on every timer tick interrupts native window painting.
+    if (this.gesture) return;
+    // Explorer can cover another topmost window without changing either flag.
+    // Raise it without hiding, resizing, toggling topmost or taking keyboard focus.
     if (!this.win.isAlwaysOnTop()) this.win.setAlwaysOnTop(true, 'screen-saver');
     if (!this.win.isVisible()) this.win.showInactive();
+    this.win.moveTop();
   }
   reposition() {
     this.end();

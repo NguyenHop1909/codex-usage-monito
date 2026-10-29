@@ -5,14 +5,15 @@ const {taskbarBounds, TaskbarController} = require('../src/taskbar-layout');
 function setup(settings = {}) {
   let display = {bounds: {x: 0, y: 0, width: 1280, height: 720}, workArea: {x: 0, y: 0, width: 1280, height: 672}};
   let cursor = {x: 1100, y: 700}, bounds = taskbarBounds(display, settings), top = true, visible = true;
-  const calls = {bounds: 0, top: 0, show: 0, save: 0};
+  const calls = {bounds: 0, top: 0, show: 0, raise: 0, save: 0};
   const win = {
     getBounds: () => ({...bounds}),
     setBounds: next => {bounds = {...next}; calls.bounds++},
     isAlwaysOnTop: () => top,
     setAlwaysOnTop: value => {top = value; calls.top++},
     isVisible: () => visible,
-    showInactive: () => {visible = true; calls.show++}
+    showInactive: () => {visible = true; calls.show++},
+    moveTop: () => calls.raise++
   };
   const controller = new TaskbarController(win, {display: () => display, cursor: () => cursor, settings: () => settings, save: () => calls.save++});
   return {controller, calls, win, settings, cursor: value => {cursor = value}, display: value => {display = value}, visibility: (isTop, isVisible) => {top = isTop; visible = isVisible}};
@@ -24,7 +25,7 @@ test('long drag stays on the taskbar without timer snaps or repeated redraws', (
   s.cursor({x: 800, y: 50});
   for (let i = 0; i < 300; i++) {s.controller.update(); s.controller.ensureVisible()}
   assert.deepEqual(s.win.getBounds(), {x: 720, y: 676, width: 260, height: 44});
-  assert.deepEqual(s.calls, {bounds: 1, top: 0, show: 0, save: 0});
+  assert.deepEqual(s.calls, {bounds: 1, top: 0, show: 0, raise: 0, save: 0});
   s.controller.end();
   s.controller.end();
   assert.equal(s.calls.save, 1);
@@ -59,11 +60,11 @@ test('off-screen dragging and resizing are clamped, including after display chan
   assert.deepEqual(s.win.getBounds(), {x: -480, y: 560, width: 480, height: 40});
 });
 
-test('visibility recovery changes only the missing visibility or topmost state', () => {
+test('visibility recovery raises an occluded topmost window without resetting its bounds or flags', () => {
   const s = setup();
   for (let i = 0; i < 100; i++) s.controller.ensureVisible();
-  assert.deepEqual(s.calls, {bounds: 0, top: 0, show: 0, save: 0});
+  assert.deepEqual(s.calls, {bounds: 0, top: 0, show: 0, raise: 100, save: 0});
   s.visibility(false, false);
   for (let i = 0; i < 100; i++) s.controller.ensureVisible();
-  assert.deepEqual(s.calls, {bounds: 0, top: 1, show: 1, save: 0});
+  assert.deepEqual(s.calls, {bounds: 0, top: 1, show: 1, raise: 200, save: 0});
 });

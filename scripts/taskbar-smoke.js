@@ -29,7 +29,7 @@ const waitFor = async predicate => {
 };
 const timeout = setTimeout(() => {console.error('Taskbar smoke timeout'); app.exit(1)}, 40000);
 app.whenReady().then(async () => {
-  const win = new BrowserWindow({width: 260, height: 44, frame: false, show: false, transparent: false, backgroundColor: '#0f172a', resizable: false, webPreferences: {preload: path.join(__dirname, '../src/preload-v2.js'), contextIsolation: true, nodeIntegration: false, backgroundThrottling: false}});
+  const win = new BrowserWindow({width: 260, height: 44, frame: false, show: false, skipTaskbar: true, transparent: false, backgroundColor: '#0f172a', resizable: false, webPreferences: {preload: path.join(__dirname, '../src/preload-v2.js'), contextIsolation: true, nodeIntegration: false, backgroundThrottling: false}});
   const errors = [];
   win.webContents.on('console-message', (_, ...args) => {if (args[0] === 3) errors.push(args[1])});
   await win.loadFile(path.join(__dirname, '../src/taskbar.html'));
@@ -93,7 +93,23 @@ app.whenReady().then(async () => {
   await waitFor(() => win.webContents.executeJavaScript("document.querySelector('#refresh').disabled"));
   win.webContents.send('usage', {...state, limits: [{kind: 'fiveHour', remaining: 5, resetAt: now - 1}, {kind: 'weekly', remaining: 10, resetAt: null}]});
   await waitFor(() => win.webContents.executeJavaScript("document.querySelector('#five-reset').textContent==='↻ Chờ cập nhật' && document.querySelector('#week-reset').textContent==='↻ --:--' && !document.querySelector('#refresh').disabled"));
+  const beforeRecovery = win.getBounds();
+  const cover = new BrowserWindow({...beforeRecovery, frame: false, show: false, skipTaskbar: true});
+  await cover.loadURL('data:text/html,<body style="background:gray">Topmost test window</body>');
+  cover.setAlwaysOnTop(true, 'screen-saver'); cover.show(); cover.focus();
+  await waitFor(() => cover.isFocused());
+  assert.equal(win.isAlwaysOnTop(), true);
+  assert.equal(win.isVisible(), true);
+  controller.ensureVisible();
+  assert.equal(cover.isFocused(), true, 'Raising the quota must not steal keyboard focus');
+  assert.deepEqual(win.getBounds(), beforeRecovery, 'Visibility recovery must not move or resize the quota');
+  win.hide();
+  controller.ensureVisible();
+  assert.equal(win.isVisible(), true);
+  assert.equal(cover.isFocused(), true, 'Restoring a hidden quota must not steal keyboard focus');
+  assert.deepEqual(win.getBounds(), beforeRecovery);
+  cover.destroy();
   assert.deepEqual(errors, []);
-  console.log('TASKBAR_SMOKE_OK: reset times, 5 sizes and shrink after growth, real window move/resize with pointer capture, persistence, refresh, loading and stale resets');
+  console.log('TASKBAR_SMOKE_OK: reset times, 5 sizes, real move/resize, persistence, refresh, hidden/occluded recovery without focus or geometry changes');
   clearTimeout(timeout); app.quit();
 }).catch(error => {console.error(error); clearTimeout(timeout); app.exit(1)});
