@@ -6,4 +6,5 @@ electron.zip
 ui-smoke*.png
 release*/
 .icon-ico/
+.test-artifacts/
 *.blockmap

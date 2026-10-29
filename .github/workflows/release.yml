@@ -14,6 +14,12 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - run: npm run test:taskbar
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: taskbar-preview
+          path: .test-artifacts/
       - run: npm run dist -- --publish always
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

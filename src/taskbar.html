@@ -1,1 +1,18 @@
-<!doctype html><html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="taskbar.css"><title>Codex usage</title></head><body><main><span id="usage">5H --% · TUẦN --%</span><button id="refresh" type="button" title="Làm mới quota" aria-label="Làm mới quota">↻</button></main><script src="taskbar-renderer.js"></script></body></html>
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="taskbar.css">
+  <title>Codex usage</title>
+</head>
+<body>
+  <main title="Giữ chuột để kéo ngang trên taskbar">
+    <div class="quota"><div class="value"><span>5H</span> <strong id="five">--%</strong></div><span class="reset" id="five-reset">↻ --:--</span></div>
+    <div class="quota"><div class="value"><span>TUẦN</span> <strong id="week">--%</strong></div><span class="reset" id="week-reset">↻ --:--</span></div>
+    <button id="refresh" type="button" title="Làm mới quota" aria-label="Làm mới quota">↻</button>
+    <span id="resize" title="Kéo góc trên bên phải để thu nhỏ hoặc phóng to khung" aria-label="Đổi kích thước khung"></span>
+  </main>
+  <script src="taskbar-renderer.js"></script>
+</body>
+</html>
