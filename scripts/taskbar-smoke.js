@@ -29,7 +29,7 @@ const waitFor = async predicate => {
 };
 const timeout = setTimeout(() => {console.error('Taskbar smoke timeout'); app.exit(1)}, 40000);
 app.whenReady().then(async () => {
-  const win = new BrowserWindow({width: 260, height: 44, frame: false, show: false, skipTaskbar: true, transparent: false, backgroundColor: '#0f172a', resizable: false, webPreferences: {preload: path.join(__dirname, '../src/preload-v2.js'), contextIsolation: true, nodeIntegration: false, backgroundThrottling: false}});
+  const win = new BrowserWindow({width: 260, height: 44, frame: false, show: false, skipTaskbar: true, transparent: true, backgroundColor: '#00000000', backgroundMaterial: 'acrylic', resizable: false, webPreferences: {preload: path.join(__dirname, '../src/preload-v2.js'), contextIsolation: true, nodeIntegration: false, backgroundThrottling: false}});
   const errors = [];
   win.webContents.on('console-message', (_, ...args) => {if (args[0] === 3) errors.push(args[1])});
   await win.loadFile(path.join(__dirname, '../src/taskbar.html'));
@@ -41,12 +41,12 @@ app.whenReady().then(async () => {
     await waitFor(() => win.webContents.executeJavaScript(`Math.abs(innerWidth-${width})<=1 && Math.abs(innerHeight-${height})<=1`)).catch(async error => {
       throw Error(`${error.message}: ${JSON.stringify({requested: {width, height}, bounds: win.getBounds(), viewport: await win.webContents.executeJavaScript('({width:innerWidth,height:innerHeight})')})}`);
     });
-    const checks = await win.webContents.executeJavaScript(`({five:document.querySelector('#five').textContent,week:document.querySelector('#week').textContent,resets:[...document.querySelectorAll('.reset')].map(x=>x.textContent),updated:document.querySelector('#updated').textContent,overflow:[...document.querySelectorAll('.quota,.value,.reset,#updated,#refresh')].some(x=>{const r=x.getBoundingClientRect();return r.top<0||r.bottom>innerHeight||r.right>innerWidth||x.scrollWidth>x.clientWidth+1}),nativeDrag:getComputedStyle(document.querySelector('main')).webkitAppRegion})`);
+    const checks = await win.webContents.executeJavaScript(`({five:document.querySelector('#five').textContent,week:document.querySelector('#week').textContent,resets:[...document.querySelectorAll('.reset')].map(x=>x.textContent),updated:document.querySelector('#updated').textContent,overflow:[...document.querySelectorAll('.quota,.value,.reset,#updated,#refresh')].some(x=>{const r=x.getBoundingClientRect();return r.top<0||r.bottom>innerHeight||r.right>innerWidth||x.scrollWidth>x.clientWidth+1}),radius:getComputedStyle(document.querySelector('main')).borderTopLeftRadius,background:getComputedStyle(document.querySelector('main')).backgroundColor,nativeDrag:getComputedStyle(document.querySelector('main')).webkitAppRegion})`);
     assert.equal(checks.five, '100%'); assert.equal(checks.week, '100%'); assert.match(checks.updated, /^C\u1eadp nh\u1eadt \d{2}:\d{2}$/);
     assert.match(checks.resets[0], /^↻ \d{2}:\d{2}$/);
     assert.match(checks.resets[1], /^↻ \d{2}:\d{2} \d{2}\/\d{2}$/);
     assert.equal(checks.overflow, false, JSON.stringify({width, height, checks}));
-    assert.equal(checks.nativeDrag, 'no-drag');
+    assert.equal(checks.nativeDrag, 'no-drag'); assert.equal(checks.radius, '14px'); assert.match(checks.background, /rgba\([^)]*,\s*0?\.64\)$/);
     fs.writeFileSync(path.join(out, `taskbar-${width}x${height}.png`), (await win.webContents.capturePage()).toPNG());
   }
   win.setBounds({...win.getBounds(), width: 260, height: 44});
