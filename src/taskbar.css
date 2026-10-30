@@ -2,7 +2,7 @@
 *{box-sizing:border-box;-webkit-app-region:no-drag}
 html,body{width:100%;height:100%;margin:0;overflow:hidden;background:transparent}
 body{padding:2px;user-select:none}
-main{position:relative;width:100%;height:100%;padding:3px 7px;display:grid;grid-template-columns:minmax(58px,.8fr) minmax(92px,1.2fr) 24px;align-items:center;gap:6px;border:1px solid rgba(147,197,253,.28);border-radius:7px;background:rgba(15,23,42,.96);cursor:grab;touch-action:none}
+main{position:relative;width:100%;height:100%;padding:3px 7px;display:grid;grid-template-columns:minmax(58px,.8fr) minmax(92px,1.2fr) 24px;align-items:center;gap:6px;border:1px solid rgba(147,197,253,.28);border-radius:12px;background:rgba(15,23,42,.96);cursor:grab;touch-action:none}
 .adjusting main{cursor:grabbing}
 .quota{min-width:0;display:flex;flex-direction:column;gap:1px;line-height:1.15}
 .value{font-size:clamp(11px,min(5vw,30vh),16px);white-space:nowrap}

@@ -24,12 +24,12 @@ test('long drag stays on the taskbar without timer snaps or repeated redraws', (
   s.controller.begin('move');
   s.cursor({x: 800, y: 50});
   for (let i = 0; i < 300; i++) {s.controller.update(); s.controller.ensureVisible()}
-  assert.deepEqual(s.win.getBounds(), {x: 720, y: 676, width: 260, height: 44});
+  assert.deepEqual(s.win.getBounds(), {x: 740, y: 676, width: 240, height: 44});
   assert.deepEqual(s.calls, {bounds: 1, top: 0, show: 0, raise: 0, save: 0});
   s.controller.end();
   s.controller.end();
   assert.equal(s.calls.save, 1);
-  assert.equal(s.settings.taskbarX, 720);
+  assert.equal(s.settings.taskbarX, 740);
 });
 
 test('resize grows and shrinks both dimensions, saves them, and keeps the bottom edge fixed', () => {
@@ -38,7 +38,7 @@ test('resize grows and shrinks both dimensions, saves them, and keeps the bottom
   s.cursor({x: 1200, y: 650});
   s.controller.update();
   s.controller.end();
-  assert.deepEqual(s.win.getBounds(), {x: 400, y: 672, width: 360, height: 48});
+  assert.deepEqual(s.win.getBounds(), {x: 400, y: 672, width: 340, height: 48});
   assert.deepEqual(taskbarBounds({bounds: {x: 0, y: 0, width: 1280, height: 720}, workArea: {x: 0, y: 0, width: 1280, height: 672}}, s.settings), s.win.getBounds());
   s.controller.begin('resize');
   s.cursor({x: 200, y: 1000});

@@ -5,7 +5,7 @@ function taskbarBounds(display, settings = {}) {
   const strip = b.y + b.height - (a.y + a.height);
   // Windows can enforce a native minimum near 38 DIP even on frameless windows.
   const maxHeight = Math.min(64, Math.max(40, strip >= 32 ? strip : 48), b.height);
-  const width = clamp(Number(settings.taskbarWidth) || 260, Math.min(220, b.width), Math.min(480, b.width));
+  const width = clamp(Number(settings.taskbarWidth) || 240, Math.min(220, b.width), Math.min(480, b.width));
   const height = clamp(Number(settings.taskbarHeight) || 44, Math.min(40, maxHeight), maxHeight);
   const right = b.x + b.width - width;
   const x = Number.isFinite(settings.taskbarX) ? clamp(settings.taskbarX, b.x, right) : right;
