@@ -4,7 +4,7 @@
 <header><div><h1>Codex Usage</h1><p id="status">Đang khởi động…</p></div><span id="dot" class="loading"></span></header>
 <div class="syncbar"><span id="updated">Chưa có dữ liệu</span><span id="next-check"></span></div>
 <section id="limits"></section>
-<section class="panel health-panel"><div class="health-head"><b>Tình trạng hệ thống</b><button id="check-health" class="ghost small">Kiểm tra ngay</button></div><div id="health" class="health-grid"></div><p id="health-detail"></p></section>
+<details class="panel compact-panel health-panel"><summary><b>Tình trạng hệ thống</b><span id="health-summary">Đang kiểm tra</span></summary><div class="health-head"><button id="check-health" class="ghost small">Kiểm tra ngay</button></div><div id="health" class="health-grid"></div><p id="health-detail"></p></details>
 <details class="panel compact-panel"><summary><b>Xu hướng 7 ngày</b><span id="forecast">Đang thu thập dữ liệu</span></summary><canvas id="chart" width="440" height="100"></canvas></details>
 <details class="panel compact-panel"><summary><b>Cài đặt & cảnh báo</b></summary>
 <label>Kiểm tra mỗi <select id="poll"><option value="1">1 phút</option><option value="5">5 phút</option><option value="10">10 phút</option><option value="15">15 phút</option></select></label>
