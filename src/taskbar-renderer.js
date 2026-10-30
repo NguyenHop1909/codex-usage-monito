@@ -21,6 +21,9 @@ function render(data) {
     reset.textContent = resetText(limit, kind === 'weekly');
     reset.title = limit?.resetAt ? `Reset: ${new Date(limit.resetAt).toLocaleString('vi-VN')}` : 'Chưa có thời gian reset';
   }
+  const updated = document.querySelector('#updated');
+  updated.textContent = data.updatedAt ? `C\u1eadp nh\u1eadt ${new Date(data.updatedAt).toLocaleTimeString('vi-VN', {hour: '2-digit', minute: '2-digit', hourCycle: 'h23'})}` : 'C\u1eadp nh\u1eadt --:--';
+  updated.title = data.updatedAt ? `D\u1eef li\u1ec7u nh\u1eadn l\u00fac ${new Date(data.updatedAt).toLocaleString('vi-VN')}` : 'Ch\u01b0a c\u00f3 th\u1eddi gian c\u1eadp nh\u1eadt';
   refresh.disabled = data.connection === 'loading';
   refresh.title = refresh.disabled ? 'Đang làm mới quota' : 'Làm mới quota';
 }

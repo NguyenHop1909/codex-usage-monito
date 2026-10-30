@@ -41,8 +41,8 @@ app.whenReady().then(async () => {
     await waitFor(() => win.webContents.executeJavaScript(`Math.abs(innerWidth-${width})<=1 && Math.abs(innerHeight-${height})<=1`)).catch(async error => {
       throw Error(`${error.message}: ${JSON.stringify({requested: {width, height}, bounds: win.getBounds(), viewport: await win.webContents.executeJavaScript('({width:innerWidth,height:innerHeight})')})}`);
     });
-    const checks = await win.webContents.executeJavaScript(`({five:document.querySelector('#five').textContent,week:document.querySelector('#week').textContent,resets:[...document.querySelectorAll('.reset')].map(x=>x.textContent),overflow:[...document.querySelectorAll('.quota,.value,.reset,#refresh')].some(x=>{const r=x.getBoundingClientRect();return r.top<0||r.bottom>innerHeight||r.right>innerWidth||x.scrollWidth>x.clientWidth+1}),nativeDrag:getComputedStyle(document.querySelector('main')).webkitAppRegion})`);
-    assert.equal(checks.five, '100%'); assert.equal(checks.week, '100%');
+    const checks = await win.webContents.executeJavaScript(`({five:document.querySelector('#five').textContent,week:document.querySelector('#week').textContent,resets:[...document.querySelectorAll('.reset')].map(x=>x.textContent),updated:document.querySelector('#updated').textContent,overflow:[...document.querySelectorAll('.quota,.value,.reset,#updated,#refresh')].some(x=>{const r=x.getBoundingClientRect();return r.top<0||r.bottom>innerHeight||r.right>innerWidth||x.scrollWidth>x.clientWidth+1}),nativeDrag:getComputedStyle(document.querySelector('main')).webkitAppRegion})`);
+    assert.equal(checks.five, '100%'); assert.equal(checks.week, '100%'); assert.match(checks.updated, /^C\u1eadp nh\u1eadt \d{2}:\d{2}$/);
     assert.match(checks.resets[0], /^↻ \d{2}:\d{2}$/);
     assert.match(checks.resets[1], /^↻ \d{2}:\d{2} \d{2}\/\d{2}$/);
     assert.equal(checks.overflow, false, JSON.stringify({width, height, checks}));
